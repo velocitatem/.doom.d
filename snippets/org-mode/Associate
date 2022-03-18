@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Associate
+# key: asoc
+# --
+$1:name :: $2:connection
