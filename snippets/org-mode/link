@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: link
+# key: ln
+# --
+[[$0][link]]

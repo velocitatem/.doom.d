@@ -7,7 +7,7 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Daniel Rosel"
-      user-mail-address "john@doe.com")
+      user-mail-address "daniel@alves.world")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -32,33 +32,11 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq
- display-line-numbers-type t
- projectile-project-search-path '("~/")
- doom-big-font (font-spec :family "C059" :size 14)
+        display-line-numbers-type t
+        projectile-project-search-path '("~/")
+        doom-big-font (font-spec :family "C059" :size 14)
 )
 
-(after! org
-  (setq org-directory "~/RoamNotes"
-        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
-        org-superstar-item-bullet-alist '((?+ . ?➤) (?- . ?✦)) ; changes +/- symbols in item lists
-        )
-  ;;(require 'org-bullets-mode)
-  ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
-)
-
-(add-hook 'org-mode-hook (lambda ()
-
-                           (org-superstar-mode 1)
-                           (olivetti-mode 1)
-
-                           ))
-(custom-set-faces
-  '(org-level-1 ((t (:inherit outline-1 :height 1.4))))
-  '(org-level-2 ((t (:inherit outline-2 :height 1.3))))
-  '(org-level-3 ((t (:inherit outline-3 :height 1.2))))
-  '(org-level-4 ((t (:inherit outline-4 :height 1.1))))
-  '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
-)
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -85,7 +63,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/RoamNotes")
+  (org-roam-directory "~/RoamNotes" "~/Secondary")
   (org-roam-capture-templates
    '(("d" "default" plain
         "%?"
@@ -112,6 +90,7 @@
   :bind (("C-c n l" . org-roam-buffer)
          ("C-c n f" . org-roam-node-find)
          ("C-c n n" . org-roam-dailies-capture-today)
+         ("C-c n m" . org-roam-dailies-caputre-tomorrow)
          ("C-c n v" . org-roam-dailies-find-today)
          ("C-c n i" . org-roam-node-insert))
         (:map org-mode-map
@@ -121,7 +100,7 @@
                         ("C-c n l" . org-roam-buffer-toggle)))
   :config
   (org-roam-setup)
-  )
+)
 (use-package! websocket
     :after org-roam)
 
@@ -159,8 +138,6 @@
   :config
   (persp-mode))
 
-(require 'ox-reveal)
-(setq Org-Reveal-root "file:///home/velo/Library/Reveal/reveal.js")
 
 
 (use-package emojify
@@ -187,7 +164,9 @@
      :publishing-directory "~/roam-export"
      :section-number nil
      :table-of-contents nil
-     :style "<link rel=\"stylesheet\" href=\"org.css\" type=\"text/css\">")))
+     :style "<link rel=\"stylesheet\" href=\"org.css\" type=\"text/css\">")
+  )
+)
 
 
 (org-babel-do-load-languages
@@ -198,3 +177,14 @@
   :init (doom-modeline-mode 1))
 (beacon-mode 1)
 (setq minimap-window-location 'right)
+
+
+(require 'eclim)
+(add-hook 'java-mode-hook 'eclim-mode)
+
+(use-package eclim
+  :hook (java-mode-hook . eclim-mode))
+
+
+(setq org-journal-date-prefix "#+TITLE: "
+      org-journal-time-prefix "* ")

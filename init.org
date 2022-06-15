@@ -1,3 +1,10 @@
+
+#+title: Init
+
+
+
+* Packages
+#+begin_src elisp :tangle init.el
 (doom! :input
     ;;chinese
     ;;japanese
@@ -172,6 +179,10 @@
        ;;literate
        (default +bindings +smartparens))
 
+#+end_src
+.
+* Emacs appearance configuration
+#+begin_src elisp :tangle init.el
 (set-frame-parameter (selected-frame) 'alpha '(80 . 70))
 (add-to-list 'default-frame-alist '(alpha . (80 . 70)))
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
@@ -180,11 +191,21 @@
                                            :height 1.0))
 (add-hook 'nov-mode-hook 'my-nov-font-setup)
 (add-hook 'after-init-hook #'doom-modeline-mode)
+#+end_src
 
+* MU4E
+#+begin_src elisp :tangle init.el
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
+#+end_src
 
+#+begin_src elisp :tangle init.el
 (global-set-key (kbd "C-c m") 'mu4e)
+#+end_src
 
+
+** Alerts
+
+#+begin_src elisp :tangle init.el
 (use-package mu4e-alert
   :after mu4e
   :init
@@ -196,7 +217,11 @@
     )
   (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line)
 )
+#+end_src
 
+** Composing
+
+#+begin_src elisp :tangle init.el
 (setq my-mu4e-account-alist '('("daniel@alves.world")))
 (defun my-mu4e-set-account ()
   "Set the account for composing a message.
@@ -220,6 +245,15 @@
       (error "No email account found"))))
 (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 
+#+end_src
+
+
+
+* Comms
+
+
+** IRC
+#+begin_src elisp :tangle init.el
 ;; Set our nickname & real-name as constant variables
 (setq
  erc-nick "velo"     ; Our IRC nick
@@ -234,6 +268,11 @@
 
 (discord)
 
+#+end_src
+
+* org
+** org-mode
+#+begin_src elisp :tangle init.el
 (add-hook 'org-mode-hook (lambda ()
 
         (org-superstar-mode 1)
@@ -263,6 +302,10 @@
         )
 ))
 
+#+end_src
+
+** Directories
+#+begin_src elisp :tangle init.el
 (setq
         org-directory "~/RoamNotes"
         org-agenda-files '("~/RoamNotes/daily/"
@@ -270,12 +313,20 @@
                            "~/Documents/birthdays.org"
                            "~/RoamNotes/drill/")
 )
+#+end_src
 
+** org-agenda
+*** Custom
+
+#+begin_src elisp :tangle init.el
 (defun agenda-today ()
   (interactive)
   (org-agenda-list "daily" (format-time-string "%Y-%m-%d") 1))
 (global-set-key (kbd "C-c o") 'agenda-today)
-
+#+end_src
+-
+*** Notifications
+#+begin_src elisp :tangle init.el
 (setq org-wild-notifier-mode t)
 
 (use-package org-alert
@@ -285,8 +336,13 @@
         org-alert-notification-title "Org Alert Reminer")
   (org-alert-enable)
 )
+#+end_src
 
+** Appearance
+
+#+begin_src elisp :tangle init.el
 (setq
  org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
  org-superstar-item-bullet-alist '((?+ . ?➤) (?- . ?✦))
 )
+#+end_src

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: limit x to a
+# key: lima
+# --
+\lim\limits_{x\to{a}}{$0}

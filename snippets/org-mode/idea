@@ -1,0 +1,22 @@
+# -*- mode: snippet -*-
+# name: idea
+# key: idea
+# --
+
+* IDEA $1
+** Strengths
+$2
+** Weaknesses
+$3
+
+** Market Analysis
+*** Similar existing brands
+$4
+*** What makes this different?
+$5
+** Potential Clients
+$6
+** Pitch
+$7
+** Shedule
+$8

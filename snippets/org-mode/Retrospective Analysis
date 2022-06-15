@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: Retrospective Analysis
+# key: rean
+# --
+
+** Retrospective Analysis
+*** Learning Experience
+$1
+*** Future Development
+$2
+**** What to change?
+$3
+*** Metrics
+| Parameter       | Value |
+|-----------------+-------|
+| Effort Given    | $4    |
+| Difficulty      | $5    |
+| Utility         | $6    |
+| Positive Impact | $7    |
+| Penetration     | $8    |

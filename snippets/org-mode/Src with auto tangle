@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Src with auto tangle
+# key: tsrc
+# --
+
+#+begin_src $1 :tangle yes
+`%`$0
+#+end_src

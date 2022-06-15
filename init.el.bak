@@ -1,22 +1,38 @@
+;;; init.el -*- lexical-binding: t; -*-
+
+;; This file controls what Doom modules are enabled and what order they load
+;; in. Remember to run 'doom sync' after modifying it!
+
+;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
+;;      documentation. There you'll find a "Module Index" link where you'll find
+;;      a comprehensive list of Doom's modules and what flags they support.
+
+;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
+;;      'C-c c k' for non-vim users) to view its documentation. This works on
+;;      flags as well (those symbols that start with a plus).
+;;
+;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
+;;      directory (for easy access to its source code).
+
 (doom! :input
-    ;;chinese
-    ;;japanese
-    ;;layout            ; auie,ctsrnm is the superior home row
+       ;;chinese
+       ;;japanese
+       ;;layout            ; auie,ctsrnm is the superior home row
 
-    :completion
-    company           ; the ultimate code completion backend
-    ;;helm              ; the *other* search engine for love and life
-    ;;ido               ; the other *other* search engine...
-    ivy               ; a search engine for love and life
-    vertico           ; the search engine of the future
+       :completion
+       company           ; the ultimate code completion backend
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
+       ivy               ; a search engine for love and life
+       vertico           ; the search engine of the future
 
-    :ui
-    ;;deft              ; notational velocity for Emacs
-    doom              ; what makes DOOM look the way it does
-    doom-dashboard    ; a nifty splash screen for Emacs
-    doom-quit         ; DOOM quit-message prompts when you quit Emacs
-    (emoji +unicode)  ; 🙂
-    hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       :ui
+       ;;deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ::(emoji +unicode)  ; 🙂
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
        ;;ligatures         ; ligatures and symbols to make your code pretty again
@@ -156,7 +172,7 @@
        ;;zig               ; C, but simpler
 
        :email
-       mu4e
+       ;;(mu4e +org +gmail)
        ;;notmuch
        ;;(wanderlust +gmail)
 
@@ -172,6 +188,19 @@
        ;;literate
        (default +bindings +smartparens))
 
+
+;;(add-hook 'after-init-hook #'treemacs)
+;;(add-hook 'text-mode-hook 'flyspell-mode)
+;;(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(global-set-key (kbd "C-b") 'buffer-expose)
+
+(defun agenda-today ()
+  (interactive)
+  (org-agenda-list "daily" (format-time-string "%Y-%m-%d") 1))
+(global-set-key (kbd "C-c o") 'agenda-today)
+
+;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
+;;(set-frame-parameter (selected-frame) 'alpha <both>)
 (set-frame-parameter (selected-frame) 'alpha '(80 . 70))
 (add-to-list 'default-frame-alist '(alpha . (80 . 70)))
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
@@ -181,61 +210,22 @@
 (add-hook 'nov-mode-hook 'my-nov-font-setup)
 (add-hook 'after-init-hook #'doom-modeline-mode)
 
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
 
-(global-set-key (kbd "C-c m") 'mu4e)
 
-(use-package mu4e-alert
-  :after mu4e
-  :init
-  (mu4e-alert-enable-mode-line-display)
-  (defun gjstein-refresh-mu4e-alert-mode-line ()
-    (interactive)
-    (mu4e~proc-kill)
-    (mu4e-alert-enable-mode-line-display)
-    )
-  (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line)
+
+
+(setq
+        org-directory "~/RoamNotes"
+        org-agenda-files '("~/RoamNotes/daily/"
+                           "~/RoamNotes/journal/"
+                           "~/Documents/birthdays.org"
+                           "~/RoamNotes/drill/")
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
+        org-superstar-item-bullet-alist '((?+ . ?➤) (?- . ?✦)) ; changes +/- symbols in item lists
+        org-wild-notifier-mode t
 )
 
-(setq my-mu4e-account-alist '('("daniel@alves.world")))
-(defun my-mu4e-set-account ()
-  "Set the account for composing a message.
-   This function is taken from:
-     https://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html"
-  (let* ((account
-    (if mu4e-compose-parent-message
-        (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-    (string-match "/\\(.*?\\)/" maildir)
-    (match-string 1 maildir))
-      (completing-read (format "Compose with account: (%s) "
-             (mapconcat #'(lambda (var) (car var))
-            my-mu4e-account-alist "/"))
-           (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-           nil t nil nil (caar my-mu4e-account-alist))))
-   (account-vars (cdr (assoc account my-mu4e-account-alist))))
-    (if account-vars
-  (mapc #'(lambda (var)
-      (set (car var) (cadr var)))
-        account-vars)
-      (error "No email account found"))))
-(add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
-
-;; Set our nickname & real-name as constant variables
-(setq
- erc-nick "velo"     ; Our IRC nick
- erc-user-full-name "Its Me Velo")
-
-;; Define a function to connect to a server
-(defun discord ()
-  (lambda ()
-  (interactive)
-  (erc :server "localhost"
-       :port   "6667")))
-
-(discord)
-
 (add-hook 'org-mode-hook (lambda ()
-
         (org-superstar-mode 1)
         (olivetti-mode 1)
 
@@ -263,20 +253,10 @@
         )
 ))
 
-(setq
-        org-directory "~/RoamNotes"
-        org-agenda-files '("~/RoamNotes/daily/"
-                           "~/RoamNotes/journal/"
-                           "~/Documents/birthdays.org"
-                           "~/RoamNotes/drill/")
-)
 
-(defun agenda-today ()
-  (interactive)
-  (org-agenda-list "daily" (format-time-string "%Y-%m-%d") 1))
-(global-set-key (kbd "C-c o") 'agenda-today)
 
-(setq org-wild-notifier-mode t)
+
+
 
 (use-package org-alert
   :custom (alert-default-style 'notifications)
@@ -286,7 +266,7 @@
   (org-alert-enable)
 )
 
-(setq
- org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
- org-superstar-item-bullet-alist '((?+ . ?➤) (?- . ?✦))
-)
+
+
+(defun pack-agenda ()
+  (org-agenda-write "~/agenda.html"))
