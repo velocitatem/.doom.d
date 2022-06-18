@@ -197,7 +197,19 @@
   (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line)
 )
 
-(setq my-mu4e-account-alist '('("daniel@alves.world")))
+;; Now I set a list of
+(defvar my-mu4e-account-alist
+  '(("Outlook"
+     (mu4e-sent-folder "/sent")
+     (user-mail-address "daniel@alves.world")
+     (smtpmail-smtp-user "daniel@alves.world")
+     (smtpmail-local-domain "alves.world")
+     (smtpmail-default-smtp-server "smtp-mail.outlook.com")
+     (smtpmail-smtp-server "smtp-mail.outlook.com")
+     (smtpmail-smtp-service 587)
+     )
+    ))
+
 (defun my-mu4e-set-account ()
   "Set the account for composing a message.
    This function is taken from:

@@ -76,7 +76,7 @@
 
        :tools
        ;;ansible
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
+       debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
@@ -196,6 +196,7 @@
 * MU4E
 #+begin_src elisp :tangle init.el
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
+(setq +mu4e-backend 'offlineimap)
 #+end_src
 
 #+begin_src elisp :tangle init.el
@@ -222,7 +223,19 @@
 ** Composing
 
 #+begin_src elisp :tangle init.el
-(setq my-mu4e-account-alist '('("daniel@alves.world")))
+;; Now I set a list of
+(defvar my-mu4e-account-alist
+  '(("Outlook"
+     (mu4e-sent-folder "/sent")
+     (user-mail-address "daniel@alves.world")
+     (smtpmail-smtp-user "daniel@alves.world")
+     (smtpmail-local-domain "alves.world")
+     (smtpmail-default-smtp-server "smtp-mail.outlook.com")
+     (smtpmail-smtp-server "smtp-mail.outlook.com")
+     (smtpmail-smtp-service 587)
+     )
+    ))
+
 (defun my-mu4e-set-account ()
   "Set the account for composing a message.
    This function is taken from:
@@ -244,9 +257,7 @@
         account-vars)
       (error "No email account found"))))
 (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
-
 #+end_src
-
 
 
 * Comms
