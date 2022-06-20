@@ -13,7 +13,7 @@
  '(org-agenda-span 20)
  '(org-journal-dir "/home/velo/RoamNotes/journal/")
  '(package-selected-packages
-   '(org-mime magit mu4e-overview mu4e-alert mu4e-views org-alert htmlize org-wild-notifier org-drill circe lsp-java flycheck-pycheckers rainbow-mode jupyter ledger-mode org-latex-impatient wordsmith-mode focus beacon angular-snippets ac-html-angular doom-modeline plantuml-mode nov org-superstar yasnippet-classic-snippets elcord cargo-mode cargo rustic darkroom olivetti ox-reveal lua-mode ess arduino-mode temp-buffer-browse typescript-mode angular-mode activity-watch-mode impatient-mode markdown-preview-eww buffer-expose minimap org-present org-journal windresize writeroom-mode wc-mode mode-icons treemacs org-bullets org-tree-slide eclim))
+   '(idle-org-agenda elegant-agenda-mode org-super-agenda org-mime magit mu4e-overview mu4e-alert mu4e-views org-alert htmlize org-wild-notifier org-drill circe lsp-java flycheck-pycheckers rainbow-mode jupyter ledger-mode org-latex-impatient wordsmith-mode focus beacon angular-snippets ac-html-angular doom-modeline plantuml-mode nov org-superstar yasnippet-classic-snippets elcord cargo-mode cargo rustic darkroom olivetti ox-reveal lua-mode ess arduino-mode temp-buffer-browse typescript-mode angular-mode activity-watch-mode impatient-mode markdown-preview-eww buffer-expose minimap org-present org-journal windresize writeroom-mode wc-mode mode-icons treemacs org-bullets org-tree-slide eclim))
  '(send-mail-function 'smtpmail-send-it)
  '(smtpmail-smtp-server "smtp-mail.outlook.com")
  '(smtpmail-smtp-service 25)

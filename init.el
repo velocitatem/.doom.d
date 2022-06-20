@@ -69,7 +69,7 @@
 
        :tools
        ;;ansible
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
+       debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
@@ -182,6 +182,7 @@
 (add-hook 'after-init-hook #'doom-modeline-mode)
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
+(setq +mu4e-backend 'offlineimap)
 
 (global-set-key (kbd "C-c m") 'mu4e)
 
@@ -296,6 +297,36 @@
   (setq org-alert-interval 60
         org-alert-notification-title "Org Alert Reminer")
   (org-alert-enable)
+)
+
+(use-package org-super-agenda
+
+  :after org-agenda
+
+  :init
+  (setq org-super-agenda-groups '(
+                            (:name "Schedule"
+                                    :time-grid t)
+                            (:name "Today"
+                                    :scheduled today)
+                            (:habit t)
+                            (:name "Due today"
+                                    :deadline today)
+                            (:name "Overdue"
+                                    :deadline past)
+                            (:name "Due soon"
+                                    :deadline future)
+                            (:name "Unimportant"
+                                    :todo ("SOMEDAY" "MAYBE" "CHECK" "TO-READ" "TO-WATCH")
+                                    :order 100)
+                            (:name "Waiting..."
+                                    :todo "WAITING"
+                                    :order 98)
+                            (:name "Scheduled earlier"
+                                    :scheduled past)
+                                  ))
+  :config
+  (org-super-agenda-mode)
 )
 
 (setq
